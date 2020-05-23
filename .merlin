@@ -1,0 +1,41 @@
+####{BSB GENERATED: NO EDIT
+B lib/bs
+FLG -open WildCards
+FLG -ppx /home/jasoons/Documents/temp/hackathon/test/node_modules/@baransu/graphql_ppx_re/ppx
+FLG -ppx /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-let/ppx
+FLG -ppx /home/jasoons/Documents/temp/hackathon/test/node_modules/decco/ppx
+FLG -ppx '/home/jasoons/Documents/temp/hackathon/test/node_modules/bs-platform/linux/bsc.exe -as-ppx -bs-jsx 3'
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-platform/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-platform/lib/ocaml
+FLG -w +a-4-9-20-40-41-42-50-61-102+A-48-42-40
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-css/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-css/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-css-emotion/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-css-emotion/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-fetch/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-fetch/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-moment/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/bs-moment/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/decco/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/decco/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/reason-promise/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/reason-promise/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/reason-react/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/reason-react/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/re-classnames/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/re-classnames/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/@wildcards/reason-apollo/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/@wildcards/reason-apollo/lib/ocaml
+S /home/jasoons/Documents/temp/hackathon/test/node_modules/@wildcards/reason-apollo-hooks/lib/ocaml
+B /home/jasoons/Documents/temp/hackathon/test/node_modules/@wildcards/reason-apollo-hooks/lib/ocaml
+S src
+B lib/bs/src
+S src/lib
+B lib/bs/src/lib
+S src/lib/js/user-provider
+B lib/bs/src/lib/js/user-provider
+S src/lib/bindings/ethereum-blockies-base64
+B lib/bs/src/lib/bindings/ethereum-blockies-base64
+S src/lib/bindings/rimble
+B lib/bs/src/lib/bindings/rimble
+####BSB GENERATED: NO EDIT}

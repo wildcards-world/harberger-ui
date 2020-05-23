@@ -1,0 +1,55 @@
+{
+  "name": "wild-cards",
+  "reason": {
+    "react-jsx": 3
+  },
+  "bsc-flags": ["-bs-super-errors"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      // "module": "commonjs",
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "bs-dependencies": [
+    "bs-css",
+    "bs-css-emotion",
+    "bs-fetch",
+    "bs-moment",
+    // "bs-webapi",
+    "decco",
+    "reason-promise",
+    "reason-react",
+    "re-classnames",
+    "@wildcards/reason-apollo",
+    "@wildcards/reason-apollo-hooks"
+    // "@glennsl/bs-jest"
+  ],
+  "gentypeconfig": {
+    "language": "typescript",
+    "shims": {
+      "ReasonReact": "reactshim"
+    },
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  },
+  "bs-dev-dependencies": [],
+  "ppx-flags": ["@baransu/graphql_ppx_re/ppx", "bs-let/ppx", "decco/ppx"],
+  // referenc: https://dev.to/yawaramin/ocaml-reasonml-best-practice-warnings-and-errors-4mkm
+  // TODO: when you get time, go through and remove "-40-42-4-11-12-32-33" fixing the issues as you go.
+  "warnings": {
+    "number": "+A-48-42-40",
+    "error": "+A-3-44-102-40-42-4-11-12-20-32-33"
+  },
+  "refmt": 3
+}
