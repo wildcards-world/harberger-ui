@@ -3,11 +3,14 @@
 import * as React from "react";
 import * as ReactDOMRe from "reason-react/src/ReactDOMRe.js";
 import * as App$WildCards from "./App.bs.js";
+import * as UsdPriceProvider$WildCards from "./lib/UsdPriceProvider.bs.js";
 import * as WildcardsProvider$WildCards from "./lib/WildcardsProvider.bs.js";
 
 ReactDOMRe.renderToElementWithId(React.createElement(WildcardsProvider$WildCards.make, {
           graphEndpoint: "api.thegraph.com/subgraphs/name/wild-cards/wildcards-goerli",
-          children: React.createElement(App$WildCards.make, { })
+          children: React.createElement(UsdPriceProvider$WildCards.make, {
+                children: React.createElement(App$WildCards.make, { })
+              })
         }), "root");
 
 export {

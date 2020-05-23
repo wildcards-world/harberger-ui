@@ -1,7 +1,7 @@
 ReactDOMRe.renderToElementWithId(
   <WildcardsProvider
     graphEndpoint="api.thegraph.com/subgraphs/name/wild-cards/wildcards-goerli">
-    <App />
+    <UsdPriceProvider> <App /> </UsdPriceProvider>
   </WildcardsProvider>,
   "root",
 );

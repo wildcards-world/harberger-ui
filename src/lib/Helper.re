@@ -1,4 +1,4 @@
-let isStringInteger = str => {
+let isPositiveStringInteger = str => {
   // TODO: this should possibly use something like - https://stackoverflow.com/a/48569311/3103033 ?
 
   // NOTE: This allows leading 0s (which seams to not be a problem for web3 or truffle)

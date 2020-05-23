@@ -37,7 +37,8 @@ let get = (value, unit) => {
 
 let make: string => option(t) =
   wei => {
-    let result = Helper.isStringInteger(wei) ? Some(BN.new_(wei)) : None;
+    let result =
+      Helper.isPositiveStringInteger(wei) ? Some(BN.new_(wei)) : None;
     result;
   };
 let makeWithDefault: (string, int) => t =

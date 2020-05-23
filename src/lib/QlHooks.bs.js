@@ -14,18 +14,14 @@ import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
 import * as Caml_format from "bs-platform/lib/es6/caml_format.js";
 import * as Caml_option from "bs-platform/lib/es6/caml_option.js";
 import * as Eth$WildCards from "./Eth.bs.js";
-import * as Animal$WildCards from "./Animal.bs.js";
 import * as Globals$WildCards from "./Globals.bs.js";
-import * as Web3Utils$WildCards from "./Web3Utils.bs.js";
-import * as RootProvider$WildCards from "./RootProvider.bs.js";
+import * as TokenId$WildCards from "./TokenId.bs.js";
 import * as ApolloHooks$ReasonApolloHooks from "@wildcards/reason-apollo-hooks/src/ApolloHooks.bs.js";
 
 function tokenIdToAnimal(tokenIdJson) {
-  return Belt_Option.mapWithDefault(Animal$WildCards.getAnimalFromId(Belt_Option.mapWithDefault(Js_json.decodeString(tokenIdJson), "0", (function (a) {
+  return Belt_Option.getWithDefault(TokenId$WildCards.make(Belt_Option.mapWithDefault(Js_json.decodeString(tokenIdJson), "0", (function (a) {
                         return a;
-                      }))), /* Vitalik */2, (function (a) {
-                return a;
-              }));
+                      }))), TokenId$WildCards.makeFromInt(0));
 }
 
 function decodePrice(price) {
@@ -1172,8 +1168,8 @@ function queryResultToOption(result) {
               }));
 }
 
-function useWildcardQuery(animal) {
-  return ApolloHooks$ReasonApolloHooks.useQuery(undefined, Caml_option.some(make$1(Animal$WildCards.getId(animal), undefined).variables), undefined, undefined, undefined, undefined, undefined, undefined, definition$1);
+function useWildcardQuery(tokenId) {
+  return ApolloHooks$ReasonApolloHooks.useQuery(undefined, Caml_option.some(make$1(TokenId$WildCards.toString(tokenId), undefined).variables), undefined, undefined, undefined, undefined, undefined, undefined, definition$1);
 }
 
 function useStateChangeSubscription(param) {
@@ -1187,24 +1183,6 @@ function useStateChangeSubscriptionData(param) {
               }));
 }
 
-function useLoadTopContributors(numberOfLeaders) {
-  return ApolloHooks$ReasonApolloHooks.useSubscription(Caml_option.some(make$6(numberOfLeaders, undefined).variables), undefined, undefined, definition$6);
-}
-
-function useLoadTopContributorsData(numberOfLeaders) {
-  var match = useLoadTopContributors(numberOfLeaders);
-  var getLargestContributors = function (largestContributors) {
-    return largestContributors.patrons.map((function (patron) {
-                  var monthlyContribution = Web3Utils$WildCards.fromWeiBNToEthPrecision(patron.patronTokenCostScaledNumerator.mul(new BnJs.default("2592000")).div(new BnJs.default("31536000000000000000")), 4);
-                  return /* tuple */[
-                          patron.id,
-                          monthlyContribution
-                        ];
-                }));
-  };
-  return subscriptionResultOptionMap(match[0], getLargestContributors);
-}
-
 function usePatron(animal) {
   var match = useWildcardQuery(animal);
   var getAddress = function (response) {
@@ -1213,16 +1191,6 @@ function usePatron(animal) {
                 }));
   };
   return queryResultOptionFlatMap(match[0], getAddress);
-}
-
-function useIsAnimalOwened(ownedAnimal) {
-  var currentAccount = Belt_Option.mapWithDefault(RootProvider$WildCards.useCurrentUser(undefined), "loading", (function (a) {
-          return a;
-        }));
-  var currentPatron = Belt_Option.mapWithDefault(usePatron(ownedAnimal), "no-patron-defined", (function (a) {
-          return a;
-        }));
-  return currentAccount.toLowerCase() === currentPatron.toLocaleLowerCase();
 }
 
 function useTimeAcquired(animal) {
@@ -1264,8 +1232,8 @@ function useTimeAcquiredWithDefault(animal, $$default) {
   return Globals$WildCards.$pipe$pipe$pipe$pipe(useTimeAcquired(animal), $$default);
 }
 
-function useDaysHeld(animal) {
-  return Globals$WildCards.oMap(useTimeAcquired(animal), (function (moment) {
+function useDaysHeld(tokenId) {
+  return Globals$WildCards.oMap(useTimeAcquired(tokenId), (function (moment) {
                 return /* tuple */[
                         Moment().diff(moment, "days"),
                         moment
@@ -1333,38 +1301,13 @@ function useTotalCollectedToken(animal) {
   return queryResultOptionFlatMap(match[0], getTotalCollectedData);
 }
 
-function usePatronLoyaltyTokenDetails(address) {
-  var match = useQueryPatronNew(address);
-  var responseNewPatron = match[0];
-  var match$1 = useQueryPatron(address);
-  var response = match$1[0];
-  if (typeof responseNewPatron === "number") {
-    return ;
-  }
-  if (responseNewPatron.tag) {
-    return ;
-  }
-  if (typeof response === "number") {
-    return ;
-  }
-  if (response.tag) {
-    return ;
-  }
-  var match$2 = responseNewPatron[0].patronNew;
-  var match$3 = response[0].patron;
-  if (match$2 === undefined) {
-    return ;
-  }
-  if (match$3 === undefined) {
-    return ;
-  }
-  var newPatron = Caml_option.valFromOption(match$2);
-  return {
-          currentLoyaltyTokens: newPatron.totalLoyaltyTokens,
-          currentLoyaltyTokensIncludingUnredeemed: newPatron.totalLoyaltyTokensIncludingUnRedeemed,
-          lastCollected: newPatron.lastUpdated,
-          numberOfAnimalsOwned: new BnJs.default(String(Caml_option.valFromOption(match$3).tokens.length))
-        };
+function pledgeRate(param) {
+  return /* tuple */[
+          "30",
+          "100",
+          0.025,
+          40
+        ];
 }
 
 function useAmountRaisedToken(animal) {
@@ -1376,41 +1319,6 @@ function useAmountRaisedToken(animal) {
   var timeElapsed = new BnJs.default(currentTimestamp).sub(match[1]);
   var amountRaisedSinceLastCollection = match[2].mul(timeElapsed).div(new BnJs.default("31536000000000000000"));
   return Caml_option.some(match[0].add(amountRaisedSinceLastCollection));
-}
-
-function useTimeSinceTokenWasLastSettled(animal) {
-  var currentTimestamp = useCurrentTime(undefined);
-  var match = useTotalCollectedToken(animal);
-  if (match !== undefined) {
-    return Caml_option.some(new BnJs.default(currentTimestamp).sub(match[1]));
-  }
-  
-}
-
-function useUnredeemedLoyaltyTokenDueFromWildcard(animal) {
-  var timeSinceTokenWasLastSettled = useTimeSinceTokenWasLastSettled(animal);
-  if (timeSinceTokenWasLastSettled === undefined) {
-    return ;
-  }
-  var totalLoyaltyTokensPerSecondPerAnimal = new BnJs.default("11574074074074");
-  return Caml_option.some(Globals$WildCards.$pipe$star$pipe(Caml_option.valFromOption(timeSinceTokenWasLastSettled), totalLoyaltyTokensPerSecondPerAnimal));
-}
-
-function useTotalLoyaltyToken(patron) {
-  var currentTimestamp = useCurrentTime(undefined);
-  var match = usePatronLoyaltyTokenDetails(patron);
-  if (match === undefined) {
-    return ;
-  }
-  var timeElapsed = Globals$WildCards.$pipe$neg$pipe(new BnJs.default(currentTimestamp), match.lastCollected);
-  var totalLoyaltyTokensPerSecondPerAnimal = new BnJs.default("11574074074074");
-  var totalLoyaltyTokensFor1Animal = Globals$WildCards.$pipe$star$pipe(totalLoyaltyTokensPerSecondPerAnimal, timeElapsed);
-  var totalLoyaltyTokensForAllAnimals = Globals$WildCards.$pipe$star$pipe(match.numberOfAnimalsOwned, totalLoyaltyTokensFor1Animal);
-  var totalLoyaltyTokensForUser = Globals$WildCards.$pipe$plus$pipe(match.currentLoyaltyTokensIncludingUnredeemed, totalLoyaltyTokensForAllAnimals);
-  return /* tuple */[
-          totalLoyaltyTokensForUser,
-          match.currentLoyaltyTokens
-        ];
 }
 
 function useRemainingDeposit(patron) {
@@ -1461,13 +1369,6 @@ function usePrice(animal) {
   }
 }
 
-function useIsForeclosed(currentPatron) {
-  var optAvailableDeposit = useRemainingDepositEth(currentPatron);
-  return Belt_Option.mapWithDefault(optAvailableDeposit, true, (function (availableDeposit) {
-                return availableDeposit.lt(new BnJs.default("0"));
-              }));
-}
-
 export {
   tokenIdToAnimal ,
   decodePrice ,
@@ -1491,10 +1392,7 @@ export {
   useWildcardQuery ,
   useStateChangeSubscription ,
   useStateChangeSubscriptionData ,
-  useLoadTopContributors ,
-  useLoadTopContributorsData ,
   usePatron ,
-  useIsAnimalOwened ,
   useTimeAcquired ,
   useQueryPatron ,
   useQueryPatronNew ,
@@ -1507,15 +1405,11 @@ export {
   useCurrentTime ,
   useAmountRaised ,
   useTotalCollectedToken ,
-  usePatronLoyaltyTokenDetails ,
+  pledgeRate ,
   useAmountRaisedToken ,
-  useTimeSinceTokenWasLastSettled ,
-  useUnredeemedLoyaltyTokenDueFromWildcard ,
-  useTotalLoyaltyToken ,
   useRemainingDeposit ,
   useRemainingDepositEth ,
   usePrice ,
-  useIsForeclosed ,
   
 }
 /* bn.js Not a pure module */

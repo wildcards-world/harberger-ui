@@ -2,7 +2,7 @@
 
 import * as $$String from "bs-platform/lib/es6/string.js";
 
-function isStringInteger(str) {
+function isPositiveStringInteger(str) {
   var f = /^([0-9]\d+)$/;
   return f.test(str);
 }
@@ -16,7 +16,7 @@ function elipsify(inputString, maxLength) {
 }
 
 export {
-  isStringInteger ,
+  isPositiveStringInteger ,
   elipsify ,
   
 }

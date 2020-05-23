@@ -77,7 +77,7 @@ function get(value, unit) {
 }
 
 function make(wei) {
-  if (Helper$WildCards.isStringInteger(wei)) {
+  if (Helper$WildCards.isPositiveStringInteger(wei)) {
     return Caml_option.some(new BnJs.default(wei));
   }
   

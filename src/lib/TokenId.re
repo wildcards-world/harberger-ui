@@ -1,12 +1,22 @@
-type t = string;
+type t;
+
+let fromStringUnsafe: string => t = Obj.magic;
 
 // TODO: check that the string is the correct type
 let make: string => option(t) =
-  tokenId => Helper.isStringInteger(tokenId) ? Some(tokenId) : None;
+  tokenId =>
+    Helper.isPositiveStringInteger(tokenId)
+      ? Some(tokenId->fromStringUnsafe) : None;
+
 let makeWithDefault: (string, int) => t =
   (tokenId, default) =>
     switch (make(tokenId)) {
     | Some(id) => id
-    | None => default->Belt.Int.toString
+    | None => default->Js.Math.abs_int->Belt.Int.toString->fromStringUnsafe
     };
-let makeFromInt: int => t = tokenId => tokenId->Belt.Int.toString;
+
+// NOTE: I run abs on this int because negative integers are invalid
+let makeFromInt: int => t =
+  tokenId => tokenId->Js.Math.abs_int->Belt.Int.toString->fromStringUnsafe;
+
+let toString: t => string = Obj.magic;

@@ -8,6 +8,8 @@ let make = () => {
     <Web3Connect.Modal />
     <h3> "Profile Icon:"->restr </h3>
     <ProfileIcon />
+    <h3> "Token Info:"->restr </h3>
+    <Info tokenId={TokenId.makeFromInt(0)} />
     <h2> "Some react!"->restr </h2>
   </div>;
 };
