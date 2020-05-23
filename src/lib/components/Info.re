@@ -42,7 +42,8 @@ let make = (~tokenId: TokenId.t) => {
       );
   let foreclosureTime = QlHooks.useForeclosureTime(currentPatron);
   let definiteTime = foreclosureTime->mapd(None, a => Some(a));
-  let (_, _, ratio, _) = QlHooks.pledgeRate(tokenId);
+
+  let ratio = QlHooks.usePledgeRate(tokenId);
 
   let optCurrentPrice = PriceDisplay.usePrice(tokenId);
 

@@ -1,20 +1,24 @@
 // [@bs.deriving {abstract: light}]
 [@bs.deriving abstract]
-type bn = {
-  add: (. bn) => bn,
-  sub: (. bn) => bn,
-  mul: (. bn) => bn,
-  div: (. bn) => bn,
-  gt: (. bn) => bool,
-  lt: (. bn) => bool,
-  eq: (. bn) => bool,
-  cmp: (. bn) => int,
-  sqr: (. unit) => bn,
+type t = {
+  add: (. t) => t,
+  sub: (. t) => t,
+  mul: (. t) => t,
+  div: (. t) => t,
+  gt: (. t) => bool,
+  lt: (. t) => bool,
+  eq: (. t) => bool,
+  cmp: (. t) => int,
+  sqr: (. unit) => t,
   toString: (. unit) => string,
 };
+type bn = t;
 
-[@bs.new] [@bs.module "bn.js"] external new_: string => bn = "default";
+[@bs.send] external toNumber: t => int = "toNumber";
+[@bs.send] external toNumberFloat: t => float = "toNumber";
 
-// [@bs.module "@polkadot/util"] external bnSqrt: (. bn) => bn = "bnSqrt";
+[@bs.new] [@bs.module "bn.js"] external new_: string => t = "default";
 
-// let test = bnSqrt(. new_("50"));
+// [@bs.module "@polkadot/util"] external tSqrt: (. t) => t = "tSqrt";
+
+// let test = tSqrt(. new_("50"));

@@ -71,18 +71,17 @@ function Info(Props) {
   var definiteTime = Globals$WildCards.mapd(foreclosureTime, undefined, (function (a) {
           return Caml_option.some(a);
         }));
-  var match$2 = QlHooks$WildCards.pledgeRate(tokenId);
-  var ratio = match$2[2];
+  var ratio = QlHooks$WildCards.usePledgeRate(tokenId);
   var optCurrentPrice = PriceDisplay$WildCards.usePrice(tokenId);
-  var match$3 = optCurrentPrice !== undefined ? /* tuple */[
+  var match$2 = optCurrentPrice !== undefined ? /* tuple */[
       Globals$WildCards.toFixedWithPrecisionNoTrailingZeros(Accounting$WildCards.defaultZeroF(Belt_Float.fromString(optCurrentPrice[0])) * ratio, 4),
       undefined
     ] : /* tuple */[
       undefined,
       undefined
     ];
-  var optMonthlyPledgeUsd = match$3[1];
-  var optMonthlyPledgeEth = match$3[0];
+  var optMonthlyPledgeUsd = match$2[1];
+  var optMonthlyPledgeEth = match$2[0];
   var monthlyRate = (ratio * 100).toString();
   var tmp;
   if (definiteTime !== undefined) {

@@ -214,7 +214,7 @@ function useInitialDataLoad(param) {
   }
 }
 
-var ppx_printed_query$1 = "query ($tokenId: String!)  {\nwildcard(id: $tokenId)  {\nid  \nanimal: tokenId  \ntimeAcquired  \ntotalCollected  \npatronageNumeratorPriceScaled  \ntimeCollected  \nprice  {\nid  \nprice  \n}\n\nowner  {\naddress  \nid  \n}\n\n}\n\n}\n";
+var ppx_printed_query$1 = "query ($tokenId: String!)  {\nwildcard(id: $tokenId)  {\nid  \nanimal: tokenId  \ntimeAcquired  \ntotalCollected  \npatronageNumerator  \npatronageNumeratorPriceScaled  \ntimeCollected  \nprice  {\nid  \nprice  \n}\n\nowner  {\naddress  \nid  \n}\n\n}\n\n}\n";
 
 function parse$1(value) {
   var value$1 = Js_option.getExn(Js_json.decodeObject(value));
@@ -239,45 +239,46 @@ function parse$1(value) {
       var value$8 = Js_dict.get(value$4, "animal");
       var value$9 = Js_dict.get(value$4, "timeAcquired");
       var value$10 = Js_dict.get(value$4, "totalCollected");
-      var value$11 = Js_dict.get(value$4, "patronageNumeratorPriceScaled");
-      var value$12 = Js_dict.get(value$4, "timeCollected");
-      var value$13 = Js_dict.get(value$4, "price");
+      var value$11 = Js_dict.get(value$4, "patronageNumerator");
+      var value$12 = Js_dict.get(value$4, "patronageNumeratorPriceScaled");
+      var value$13 = Js_dict.get(value$4, "timeCollected");
+      var value$14 = Js_dict.get(value$4, "price");
       var tmp$2;
-      if (value$13 !== undefined) {
-        var value$14 = Js_option.getExn(Js_json.decodeObject(Caml_option.valFromOption(value$13)));
-        var value$15 = Js_dict.get(value$14, "id");
+      if (value$14 !== undefined) {
+        var value$15 = Js_option.getExn(Js_json.decodeObject(Caml_option.valFromOption(value$14)));
+        var value$16 = Js_dict.get(value$15, "id");
         var tmp$3;
-        if (value$15 !== undefined) {
-          var value$16 = Caml_option.valFromOption(value$15);
-          var value$17 = Js_json.decodeString(value$16);
-          tmp$3 = value$17 !== undefined ? value$17 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$16));
+        if (value$16 !== undefined) {
+          var value$17 = Caml_option.valFromOption(value$16);
+          var value$18 = Js_json.decodeString(value$17);
+          tmp$3 = value$18 !== undefined ? value$18 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$17));
         } else {
           tmp$3 = Js_exn.raiseError("graphql_ppx: Field id on type Price is missing");
         }
-        var value$18 = Js_dict.get(value$14, "price");
+        var value$19 = Js_dict.get(value$15, "price");
         tmp$2 = {
           id: tmp$3,
-          price: value$18 !== undefined ? decodePrice(Caml_option.valFromOption(value$18)) : Js_exn.raiseError("graphql_ppx: Field price on type Price is missing")
+          price: value$19 !== undefined ? decodePrice(Caml_option.valFromOption(value$19)) : Js_exn.raiseError("graphql_ppx: Field price on type Price is missing")
         };
       } else {
         tmp$2 = Js_exn.raiseError("graphql_ppx: Field price on type Wildcard is missing");
       }
-      var value$19 = Js_dict.get(value$4, "owner");
+      var value$20 = Js_dict.get(value$4, "owner");
       var tmp$4;
-      if (value$19 !== undefined) {
-        var value$20 = Js_option.getExn(Js_json.decodeObject(Caml_option.valFromOption(value$19)));
-        var value$21 = Js_dict.get(value$20, "address");
-        var value$22 = Js_dict.get(value$20, "id");
+      if (value$20 !== undefined) {
+        var value$21 = Js_option.getExn(Js_json.decodeObject(Caml_option.valFromOption(value$20)));
+        var value$22 = Js_dict.get(value$21, "address");
+        var value$23 = Js_dict.get(value$21, "id");
         var tmp$5;
-        if (value$22 !== undefined) {
-          var value$23 = Caml_option.valFromOption(value$22);
-          var value$24 = Js_json.decodeString(value$23);
-          tmp$5 = value$24 !== undefined ? value$24 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$23));
+        if (value$23 !== undefined) {
+          var value$24 = Caml_option.valFromOption(value$23);
+          var value$25 = Js_json.decodeString(value$24);
+          tmp$5 = value$25 !== undefined ? value$25 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$24));
         } else {
           tmp$5 = Js_exn.raiseError("graphql_ppx: Field id on type Patron is missing");
         }
         tmp$4 = {
-          address: value$21 !== undefined ? decodeAddress(Caml_option.valFromOption(value$21)) : Js_exn.raiseError("graphql_ppx: Field address on type Patron is missing"),
+          address: value$22 !== undefined ? decodeAddress(Caml_option.valFromOption(value$22)) : Js_exn.raiseError("graphql_ppx: Field address on type Patron is missing"),
           id: tmp$5
         };
       } else {
@@ -288,8 +289,9 @@ function parse$1(value) {
         animal: value$8 !== undefined ? tokenIdToAnimal(Caml_option.valFromOption(value$8)) : Js_exn.raiseError("graphql_ppx: Field animal on type Wildcard is missing"),
         timeAcquired: value$9 !== undefined ? decodeMoment(Caml_option.valFromOption(value$9)) : Js_exn.raiseError("graphql_ppx: Field timeAcquired on type Wildcard is missing"),
         totalCollected: value$10 !== undefined ? decodePrice(Caml_option.valFromOption(value$10)) : Js_exn.raiseError("graphql_ppx: Field totalCollected on type Wildcard is missing"),
-        patronageNumeratorPriceScaled: value$11 !== undefined ? decodeBN(Caml_option.valFromOption(value$11)) : Js_exn.raiseError("graphql_ppx: Field patronageNumeratorPriceScaled on type Wildcard is missing"),
-        timeCollected: value$12 !== undefined ? decodeBN(Caml_option.valFromOption(value$12)) : Js_exn.raiseError("graphql_ppx: Field timeCollected on type Wildcard is missing"),
+        patronageNumerator: value$11 !== undefined ? decodeBN(Caml_option.valFromOption(value$11)) : Js_exn.raiseError("graphql_ppx: Field patronageNumerator on type Wildcard is missing"),
+        patronageNumeratorPriceScaled: value$12 !== undefined ? decodeBN(Caml_option.valFromOption(value$12)) : Js_exn.raiseError("graphql_ppx: Field patronageNumeratorPriceScaled on type Wildcard is missing"),
+        timeCollected: value$13 !== undefined ? decodeBN(Caml_option.valFromOption(value$13)) : Js_exn.raiseError("graphql_ppx: Field timeCollected on type Wildcard is missing"),
         price: tmp$2,
         owner: tmp$4
       };
@@ -1301,13 +1303,25 @@ function useTotalCollectedToken(animal) {
   return queryResultOptionFlatMap(match[0], getTotalCollectedData);
 }
 
-function pledgeRate(param) {
-  return /* tuple */[
-          "30",
-          "100",
-          0.025,
-          40
-        ];
+function usePatronageNumerator(tokenId) {
+  var match = useWildcardQuery(tokenId);
+  var patronageNumerator = function (response) {
+    return Belt_Option.map(response.wildcard, (function (wildcard) {
+                  return wildcard.patronageNumerator;
+                }));
+  };
+  return queryResultOptionFlatMap(match[0], patronageNumerator);
+}
+
+function usePledgeRate(tokenId) {
+  var optPatronageNumerator = usePatronageNumerator(tokenId);
+  return React.useMemo((function () {
+                if (optPatronageNumerator === undefined) {
+                  return 0;
+                }
+                var result = Globals$WildCards.$pipe$slash$pipe(Caml_option.valFromOption(optPatronageNumerator), new BnJs.default("12000000000"));
+                return result.toNumber() / 1000;
+              }), [optPatronageNumerator]);
 }
 
 function useAmountRaisedToken(animal) {
@@ -1405,7 +1419,8 @@ export {
   useCurrentTime ,
   useAmountRaised ,
   useTotalCollectedToken ,
-  pledgeRate ,
+  usePatronageNumerator ,
+  usePledgeRate ,
   useAmountRaisedToken ,
   useRemainingDeposit ,
   useRemainingDepositEth ,

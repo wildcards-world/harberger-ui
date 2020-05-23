@@ -34,12 +34,14 @@ let decodeMoment: Js.Json.t => MomentRe.Moment.t =
     ->Js.Json.decodeString
     ->Belt.Option.mapWithDefault(0, a => a->int_of_string) /*trusting that gql will be reliable here*/
     ->MomentRe.momentWithUnix;
+
 let decodeBN: Js.Json.t => BN.bn =
   number =>
     number
     ->Js.Json.decodeString
     ->Belt.Option.mapWithDefault("0", a => a) /*trusting that gql will be reliable here*/
     ->BN.new_;
+
 // TODO: make a real address string
 let decodeAddress: Js.Json.t => string =
   address =>
@@ -99,6 +101,7 @@ module SubWildcardQuery = [%graphql
            animal: tokenId @bsDecoder(fn: "tokenIdToAnimal")
            timeAcquired @bsDecoder(fn: "decodeMoment")
            totalCollected @bsDecoder(fn: "decodePrice")
+           patronageNumerator @bsDecoder(fn: "decodeBN")
            patronageNumeratorPriceScaled @bsDecoder(fn: "decodeBN")
            timeCollected @bsDecoder(fn: "decodeBN")
            # timeCollected @bsDecoder(fn: "decodeMoment")
@@ -500,8 +503,30 @@ let useTotalCollectedToken: TokenId.t => option((Eth.t, BN.bn, BN.bn)) =
     simple->queryResultOptionFlatMap(getTotalCollectedData);
   };
 
+let usePatronageNumerator = (tokenId: TokenId.t) => {
+  let (simple, _) = useWildcardQuery(tokenId);
+  let patronageNumerator = response =>
+    response##wildcard
+    ->Belt.Option.map(wildcard => wildcard##patronageNumerator);
+
+  simple->queryResultOptionFlatMap(patronageNumerator);
+};
+
 // TODO: fix this, this is a hardcoded pledgerate. It should be fetched from the graph!
-let pledgeRate = _ => ("30", "100", 0.025, 40.);
+let usePledgeRate = tokenId => {
+  let optPatronageNumerator = usePatronageNumerator(tokenId);
+  React.useMemo1(
+    () => {
+      switch (optPatronageNumerator) {
+      | Some(patronageNumerator) =>
+        let result = patronageNumerator |/| BN.new_("12000000000");
+        result->BN.toNumberFloat /. 1000.;
+      | None => 0.
+      }
+    },
+    [|optPatronageNumerator|],
+  );
+};
 
 /*
   type patronLoyaltyTokenDetails = {
@@ -538,6 +563,7 @@ let pledgeRate = _ => ("30", "100", 0.025, 40.);
       };
     };
  */
+
 // TODO:: Take min of total deposit and amount raised
 let useAmountRaisedToken: TokenId.t => option(Eth.t) =
   animal => {
