@@ -1,11 +1,9 @@
 open RootProviderTypes;
 
-[@bs.module "./web3-react/connectors"]
-external injected: injectedType = "injected";
-
 type web3reactContext = {
   active: bool,
-  activate: (injectedType, unit => unit, bool) => Promise.promise(unit),
+  activate:
+    (Web3Connectors.injectedType, unit => unit, bool) => Promise.promise(unit),
   account: option(Web3.ethAddress),
   library: option(web3Library),
   chainId: option(int),
@@ -99,11 +97,11 @@ module RootWithWeb3 = {
       React.useState(() => false);
     React.useEffect5(
       () => {
-        injected.isAuthorized()
+        Web3Connectors.injected.isAuthorized()
         ->Promise.get(authorised =>
             if (authorised && !triedLoginAlready) {
               ignore(
-                context.activate(injected, () => (), true)
+                context.activate(Web3Connectors.injected, () => (), true)
                 ->Promise.Js.catch(_ => {
                     setTriedLoginAlready(_ => true);
                     Promise.resolved();
@@ -328,7 +326,8 @@ type connection =
   | Connecting
   | ErrorConnecting;
 
-let useActivateConnector: unit => (connection, injectedType => unit) =
+let useActivateConnector:
+  unit => (connection, Web3Connectors.injectedType => unit) =
   () => {
     let context = useWeb3React();
     let (connectionStatus, setConnectionStatus) =

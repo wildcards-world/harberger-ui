@@ -1,6 +1,6 @@
 type connectorObj = {
   name: string,
-  connector: RootProviderTypes.injectedType,
+  connector: Web3Connectors.injectedType,
   img: string,
   connectionPhrase: string,
 };

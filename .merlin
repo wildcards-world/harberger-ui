@@ -34,6 +34,8 @@ S src/lib
 B lib/bs/src/lib
 S src/lib/js/user-provider
 B lib/bs/src/lib/js/user-provider
+S src/lib/bindings/web3-react
+B lib/bs/src/lib/bindings/web3-react
 S src/lib/bindings/ethereum-blockies-base64
 B lib/bs/src/lib/bindings/ethereum-blockies-base64
 S src/lib/bindings/rimble

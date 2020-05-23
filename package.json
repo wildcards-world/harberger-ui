@@ -18,9 +18,11 @@
     "@wildcards/reason-apollo": "0.20.0-latest1",
     "@wildcards/reason-apollo-hooks": "6.0.1-latest1",
     "bs-fetch": "^0.5.2",
+    "ethereum-blockies-base64": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "rimble-ui": "^0.14.0"
   },
   "scripts": {
     "start": "react-scripts start",

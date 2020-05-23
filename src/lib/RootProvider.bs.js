@@ -10,10 +10,8 @@ import * as Eth$WildCards from "./Eth.bs.js";
 import * as Core from "@web3-react/core";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
 import * as UserProvider$WildCards from "./js/user-provider/UserProvider.bs.js";
-import * as Connectors from "./web3-react/connectors";
 import * as ThemeProvider$WildCards from "./bindings/rimble/ThemeProvider.bs.js";
-
-var injected = Connectors.injected;
+import * as Web3Connectors$WildCards from "./bindings/web3-react/Web3Connectors.bs.js";
 
 var Web3ReactProvider = { };
 
@@ -171,9 +169,9 @@ function RootProvider$RootWithWeb3(Props) {
   var setTriedLoginAlready = match$1[1];
   var triedLoginAlready = match$1[0];
   React.useEffect((function () {
-          $$Promise.get(Curry._1(injected.isAuthorized, undefined), (function (authorised) {
+          $$Promise.get(Curry._1(Web3Connectors$WildCards.injected.isAuthorized, undefined), (function (authorised) {
                   if (authorised && !triedLoginAlready) {
-                    $$Promise.Js.$$catch(Curry._3(context.activate, injected, (function (param) {
+                    $$Promise.Js.$$catch(Curry._3(context.activate, Web3Connectors$WildCards.injected, (function (param) {
                                 
                               }), true), (function (param) {
                             Curry._1(setTriedLoginAlready, (function (param) {
@@ -430,7 +428,6 @@ function RootProvider(Props) {
 var make$1 = RootProvider;
 
 export {
-  injected ,
   Web3ReactProvider ,
   getLibrary ,
   initialState ,
@@ -459,4 +456,4 @@ export {
   make$1 as make,
   
 }
-/* injected Not a pure module */
+/* context Not a pure module */
