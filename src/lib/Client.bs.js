@@ -55,7 +55,7 @@ function webSocketHttpLink(uribase) {
                 } else {
                   return false;
                 }
-              }), wsLink("ws://" + uribase), httpLink("https://" + uribase));
+              }), wsLink("wss://" + uribase), httpLink("https://" + uribase));
 }
 
 function instance(graphEndpoint) {

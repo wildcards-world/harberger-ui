@@ -12,7 +12,6 @@ let getProviderOrSigner =
   };
 };
 
-type abi;
 type txResult = {
   blockHash: string,
   blockNumber: int,
@@ -81,27 +80,28 @@ type loyaltyTokenContract = {
 
 [@bs.new] [@bs.module "ethers"]
 external getContract:
-  (Web3.ethAddress, abi, RootProviderTypes.web3Library) => stewardContract =
+  (Web3.ethAddress, Web3.abi, RootProviderTypes.web3Library) => stewardContract =
   "Contract";
 
 [@bs.new] [@bs.module "ethers"]
 external getLoyaltyTokenContract:
-  (Web3.ethAddress, abi, RootProviderTypes.web3Library) => loyaltyTokenContract =
+  (Web3.ethAddress, Web3.abi, RootProviderTypes.web3Library) =>
+  loyaltyTokenContract =
   "Contract";
 
 [@bs.new] [@bs.module "ethers"]
 external getVotingContract:
-  (Web3.ethAddress, abi, RootProviderTypes.web3Library) => voteContract =
+  (Web3.ethAddress, Web3.abi, RootProviderTypes.web3Library) => voteContract =
   "Contract";
 
 // For Now these ABI's will remain hard coded... It would be great to find a way to make it more configurable!
-[@bs.module "./abi/steward.json"] external stewardAbi: abi = "stewardAbi";
+[@bs.module "./abi/steward.json"] external stewardAbi: Web3.abi = "stewardAbi";
 
 [@bs.module "./abi/voteContract.json"]
-external voteContract: abi = "voteContract";
+external voteContract: Web3.abi = "voteContract";
 
 [@bs.module "./abi/loyaltyToken.json"]
-external loyaltyTokenAbi: abi = "loyaltyToken";
+external loyaltyTokenAbi: Web3.abi = "loyaltyToken";
 
 [@bs.module "ethers"] [@bs.scope "utils"]
 external parseUnits: (. string, int) => parsedUnits = "parseUnits";
@@ -137,11 +137,20 @@ let loyaltyTokenAddressGoerli = "0xd7d8c42ab5b83aa3d4114e5297989dc27bdfb715";
 // let voteContractMainnet = "0x03e051b7e42480Cc9D54F1caB525D2Fea2cF4d83";
 // let voteContractGoerli = "0x316C5f8867B21923db8A0Bd6890A6BFE0Ab6F9d2";
 
-let stewardAddressFromChainId =
+let defaultStewardAddressFromChainId =
   fun
   | 1 => Some(stewardAddressMainnet)
   | 5 => Some(stewardAddressGoerli)
   | _ => None;
+let useStewardAddress = () => {
+  let externallySetAddress = RootProvider.useStewardContractAddress();
+  chainId => {
+    externallySetAddress->Belt.Option.mapWithDefault(
+      defaultStewardAddressFromChainId(chainId), a =>
+      Some(a)
+    );
+  };
+};
 let loyaltyTokenAddressFromChainId =
   fun
   | 1 => Some(loyaltyTokenAddressMainnet)
@@ -155,13 +164,13 @@ let loyaltyTokenAddressFromChainId =
 
 let useStewardContract = () => {
   let context = RootProvider.useWeb3React();
+  let stewardContractAddress = useStewardAddress();
 
   React.useMemo3(
     () => {
       switch (context.library, context.chainId) {
       | (Some(library), Some(chainId)) =>
-        chainId
-        ->stewardAddressFromChainId
+        stewardContractAddress(chainId)
         ->oMap(getExchangeContract(_, library, context.account))
 
       | _ => None

@@ -10,7 +10,8 @@ ReactDOMRe.renderToElementWithId(React.createElement(WildcardsProvider$WildCards
           graphEndpoint: "api.thegraph.com/subgraphs/name/wild-cards/wildcards-goerli",
           children: React.createElement(UsdPriceProvider$WildCards.make, {
                 children: React.createElement(App$WildCards.make, { })
-              })
+              }),
+          stewardContractAddress: "0x0C00CFE8EbB34fE7C31d4915a43Cde211e9F0F3B"
         }), "root");
 
 export {

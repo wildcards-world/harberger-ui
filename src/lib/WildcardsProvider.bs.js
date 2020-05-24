@@ -10,6 +10,8 @@ import * as QlStateManager$WildCards from "./QlStateManager.bs.js";
 function WildcardsProvider(Props) {
   var graphEndpoint = Props.graphEndpoint;
   var children = Props.children;
+  var stewardContractAddress = Props.stewardContractAddress;
+  var stewardAbi = Props.stewardAbi;
   var client = React.useMemo((function () {
           return Client$WildCards.instance(graphEndpoint);
         }), [graphEndpoint]);
@@ -22,7 +24,9 @@ function WildcardsProvider(Props) {
                                 children: children
                               })
                         })
-                  })
+                  }),
+              stewardContractAddress: stewardContractAddress,
+              stewardAbi: stewardAbi
             });
 }
 

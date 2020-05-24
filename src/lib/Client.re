@@ -60,7 +60,7 @@ let webSocketHttpLink = (~uribase) =>
       operationDefition.kind == "OperationDefinition"
       && operationDefition.operation == "subscription";
     },
-    wsLink(~uri="ws://" ++ uribase),
+    wsLink(~uri="wss://" ++ uribase),
     httpLink(~uri="https://" ++ uribase),
   );
 

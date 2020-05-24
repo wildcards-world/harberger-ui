@@ -23,7 +23,11 @@ function getLibrary(provider) {
 
 var initialState = {
   nonUrlState: /* NoExtraState */2,
-  ethState: /* Disconnected */0
+  ethState: /* Disconnected */0,
+  config: {
+    stewardContractAddress: undefined,
+    stewardAbi: undefined
+  }
 };
 
 function reducer(_prevState, _action) {
@@ -37,12 +41,14 @@ function reducer(_prevState, _action) {
             if (match) {
               return {
                       nonUrlState: /* UpdateDepositScreen */1,
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             } else {
               return {
                       nonUrlState: /* LoginScreen */Block.__(0, [action]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             }
         case /* GoToUserVerification */2 :
@@ -50,24 +56,28 @@ function reducer(_prevState, _action) {
             if (match$1) {
               return {
                       nonUrlState: /* UserVerificationScreen */0,
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             } else {
               return {
                       nonUrlState: /* LoginScreen */Block.__(0, [action]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             }
         case /* NoAction */0 :
         case /* ClearNonUrlState */3 :
             return {
                     nonUrlState: /* NoExtraState */2,
-                    ethState: prevState.ethState
+                    ethState: prevState.ethState,
+                    config: prevState.config
                   };
         case /* Logout */4 :
             return {
                     nonUrlState: /* NoExtraState */2,
-                    ethState: /* Disconnected */0
+                    ethState: /* Disconnected */0,
+                    config: prevState.config
                   };
         
       }
@@ -78,12 +88,14 @@ function reducer(_prevState, _action) {
             if (match$2) {
               return {
                       nonUrlState: /* BuyScreen */Block.__(2, [action[0]]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             } else {
               return {
                       nonUrlState: /* LoginScreen */Block.__(0, [action]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             }
         case /* GoToPriceUpdate */1 :
@@ -91,12 +103,14 @@ function reducer(_prevState, _action) {
             if (match$3) {
               return {
                       nonUrlState: /* UpdatePriceScreen */Block.__(1, [action[0]]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             } else {
               return {
                       nonUrlState: /* LoginScreen */Block.__(0, [action]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             }
         case /* GoToWeb3Connect */2 :
@@ -105,7 +119,8 @@ function reducer(_prevState, _action) {
             if (!match$4) {
               return {
                       nonUrlState: /* LoginScreen */Block.__(0, [action$1]),
-                      ethState: prevState.ethState
+                      ethState: prevState.ethState,
+                      config: prevState.config
                     };
             }
             _action = action$1;
@@ -116,9 +131,11 @@ function reducer(_prevState, _action) {
               action[0],
               action[1]
             ];
+            var newState_config = prevState.config;
             var newState = {
               nonUrlState: newState_nonUrlState,
-              ethState: newState_ethState
+              ethState: newState_ethState,
+              config: newState_config
             };
             var followOnAction = prevState.nonUrlState;
             if (typeof followOnAction === "number") {
@@ -160,7 +177,16 @@ var RootContext = {
 
 function RootProvider$RootWithWeb3(Props) {
   var children = Props.children;
-  var match = React.useReducer(reducer, initialState);
+  var stewardContractAddress = Props.stewardContractAddress;
+  var stewardAbi = Props.stewardAbi;
+  var match = React.useReducer(reducer, {
+        nonUrlState: /* NoExtraState */2,
+        ethState: /* Disconnected */0,
+        config: {
+          stewardContractAddress: stewardContractAddress,
+          stewardAbi: stewardAbi
+        }
+      });
   var dispatch = match[1];
   var context = Core.useWeb3React();
   var match$1 = React.useState((function () {
@@ -244,6 +270,11 @@ function RootProvider$RootWithWeb3(Props) {
 var RootWithWeb3 = {
   make: RootProvider$RootWithWeb3
 };
+
+function useStewardContractAddress(param) {
+  var match = React.useContext(context);
+  return match[0].config.stewardContractAddress;
+}
 
 function useCurrentUser(param) {
   var match = React.useContext(context);
@@ -413,6 +444,8 @@ function useActivateConnector(param) {
 
 function RootProvider(Props) {
   var children = Props.children;
+  var stewardContractAddress = Props.stewardContractAddress;
+  var stewardAbi = Props.stewardAbi;
   return React.createElement(Core.Web3ReactProvider, {
               getLibrary: getLibrary,
               children: React.createElement(RootProvider$RootWithWeb3, {
@@ -420,7 +453,9 @@ function RootProvider(Props) {
                           children: React.createElement(ThemeProvider$WildCards.make, {
                                 children: children
                               })
-                        })
+                        }),
+                    stewardContractAddress: stewardContractAddress,
+                    stewardAbi: stewardAbi
                   })
             });
 }
@@ -434,6 +469,7 @@ export {
   reducer ,
   RootContext ,
   RootWithWeb3 ,
+  useStewardContractAddress ,
   useCurrentUser ,
   useIsAddressCurrentUser ,
   useIsProviderSelected ,

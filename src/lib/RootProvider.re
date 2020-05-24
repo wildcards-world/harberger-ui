@@ -31,7 +31,14 @@ let getLibrary = provider => {
   setPollingInterval(library);
 };
 
-let initialState = {nonUrlState: NoExtraState, ethState: Disconnected};
+let initialState = {
+  nonUrlState: NoExtraState,
+  ethState: Disconnected,
+  config: {
+    stewardContractAddress: None,
+    stewardAbi: None,
+  },
+};
 
 let rec reducer = (prevState, action) =>
   switch (action) {
@@ -70,7 +77,11 @@ let rec reducer = (prevState, action) =>
     | Connected(_, _) => {...prevState, nonUrlState: UserVerificationScreen}
     | Disconnected => {...prevState, nonUrlState: LoginScreen(action)}
     }
-  | Logout => {ethState: Disconnected, nonUrlState: NoExtraState}
+  | Logout => {
+      ...prevState,
+      ethState: Disconnected,
+      nonUrlState: NoExtraState,
+    }
   | NoAction => {...prevState, nonUrlState: NoExtraState}
   // | _ => prevState
   };
@@ -88,8 +99,23 @@ module RootContext = {
 
 module RootWithWeb3 = {
   [@react.component]
-  let make = (~children) => {
-    let (rootState, dispatch) = React.useReducer(reducer, initialState);
+  let make =
+      (
+        ~children,
+        ~stewardContractAddress: option(Web3.ethAddress),
+        ~stewardAbi: option(Web3.abi),
+      ) => {
+    let (rootState, dispatch) =
+      React.useReducer(
+        reducer,
+        {
+          ...initialState,
+          config: {
+            stewardContractAddress,
+            stewardAbi,
+          },
+        },
+      );
     let context = useWeb3React();
 
     // This prevents repeated tries at logging in (or re-login after logout)
@@ -180,6 +206,12 @@ module RootWithWeb3 = {
     <RootContext value=(rootState, dispatch)> children </RootContext>;
   };
 };
+let useStewardContractAddress: unit => option(Web3.ethAddress) =
+  () => {
+    let (state, _) = React.useContext(RootContext.context);
+    state.config.stewardContractAddress;
+  };
+
 let useCurrentUser: unit => option(Web3.ethAddress) =
   () => {
     let (state, _) = React.useContext(RootContext.context);
@@ -349,9 +381,14 @@ let useActivateConnector:
   };
 
 [@react.component]
-let make = (~children) => {
+let make =
+    (
+      ~children,
+      ~stewardContractAddress: option(Web3.ethAddress),
+      ~stewardAbi: option(Web3.abi),
+    ) => {
   <Web3ReactProvider getLibrary>
-    <RootWithWeb3>
+    <RootWithWeb3 stewardContractAddress stewardAbi>
       <UserProvider> <ThemeProvider> children </ThemeProvider> </UserProvider>
     </RootWithWeb3>
   </Web3ReactProvider>;
