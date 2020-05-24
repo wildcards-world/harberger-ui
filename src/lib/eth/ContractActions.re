@@ -94,9 +94,6 @@ external getVotingContract:
   (Web3.ethAddress, Web3.abi, RootProviderTypes.web3Library) => voteContract =
   "Contract";
 
-// For Now these ABI's will remain hard coded... It would be great to find a way to make it more configurable!
-[@bs.module "./abi/steward.json"] external stewardAbi: Web3.abi = "stewardAbi";
-
 [@bs.module "./abi/voteContract.json"]
 external voteContract: Web3.abi = "voteContract";
 
@@ -106,7 +103,7 @@ external loyaltyTokenAbi: Web3.abi = "loyaltyToken";
 [@bs.module "ethers"] [@bs.scope "utils"]
 external parseUnits: (. string, int) => parsedUnits = "parseUnits";
 
-let getExchangeContract = (stewardAddress, library, account) => {
+let getExchangeContract = (stewardAddress, stewardAbi, library, account) => {
   getContract(
     stewardAddress,
     stewardAbi,
@@ -137,6 +134,15 @@ let loyaltyTokenAddressGoerli = "0xd7d8c42ab5b83aa3d4114e5297989dc27bdfb715";
 // let voteContractMainnet = "0x03e051b7e42480Cc9D54F1caB525D2Fea2cF4d83";
 // let voteContractGoerli = "0x316C5f8867B21923db8A0Bd6890A6BFE0Ab6F9d2";
 
+let useStewardAbi = () => {
+  switch (RootProvider.useStewardAbi()) {
+  | Some(abi) => abi
+  | None =>
+    %raw
+    {|require("./abi/steward.json").stewardAbi|}
+  };
+};
+
 let defaultStewardAddressFromChainId =
   fun
   | 1 => Some(stewardAddressMainnet)
@@ -165,13 +171,14 @@ let loyaltyTokenAddressFromChainId =
 let useStewardContract = () => {
   let context = RootProvider.useWeb3React();
   let stewardContractAddress = useStewardAddress();
+  let stewardAbi = useStewardAbi();
 
   React.useMemo3(
     () => {
       switch (context.library, context.chainId) {
       | (Some(library), Some(chainId)) =>
         stewardContractAddress(chainId)
-        ->oMap(getExchangeContract(_, library, context.account))
+        ->oMap(getExchangeContract(_, stewardAbi, library, context.account))
 
       | _ => None
       }

@@ -276,6 +276,11 @@ function useStewardContractAddress(param) {
   return match[0].config.stewardContractAddress;
 }
 
+function useStewardAbi(param) {
+  var match = React.useContext(context);
+  return match[0].config.stewardAbi;
+}
+
 function useCurrentUser(param) {
   var match = React.useContext(context);
   var match$1 = match[0].ethState;
@@ -470,6 +475,7 @@ export {
   RootContext ,
   RootWithWeb3 ,
   useStewardContractAddress ,
+  useStewardAbi ,
   useCurrentUser ,
   useIsAddressCurrentUser ,
   useIsProviderSelected ,

@@ -212,6 +212,12 @@ let useStewardContractAddress: unit => option(Web3.ethAddress) =
     state.config.stewardContractAddress;
   };
 
+let useStewardAbi: unit => option(Web3.abi) =
+  () => {
+    let (state, _) = React.useContext(RootContext.context);
+    state.config.stewardAbi;
+  };
+
 let useCurrentUser: unit => option(Web3.ethAddress) =
   () => {
     let (state, _) = React.useContext(RootContext.context);
