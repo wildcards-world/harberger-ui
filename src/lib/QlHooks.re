@@ -528,6 +528,13 @@ let usePledgeRate = tokenId => {
   );
 };
 
+let usePledgeRateDetailed = tokenId => {
+  let pledgeRate = usePledgeRate(tokenId);
+  let inversePledgeRate = 1. /. pledgeRate;
+  let numeratorOverYear = (pledgeRate *. 1200.)->Float.toInt->string_of_int;
+  (numeratorOverYear, "100", pledgeRate, inversePledgeRate);
+};
+
 /*
   type patronLoyaltyTokenDetails = {
     currentLoyaltyTokens: Eth.t,

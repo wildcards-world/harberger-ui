@@ -10,6 +10,8 @@ let make = () => {
     <ProfileIcon />
     <h3> "Token Info:"->restr </h3>
     <Info tokenId={TokenId.makeFromInt(0)} />
+    <h3> "Buy this token:"->restr </h3>
+    <Buy tokenId={TokenId.makeFromInt(0)} />
     <h2> "Some react!"->restr </h2>
   </div>;
 };

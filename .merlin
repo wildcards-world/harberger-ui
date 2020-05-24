@@ -36,6 +36,8 @@ S src/lib/js/user-provider
 B lib/bs/src/lib/js/user-provider
 S src/lib/components
 B lib/bs/src/lib/components
+S src/lib/eth
+B lib/bs/src/lib/eth
 S src/lib/bindings/web3-react
 B lib/bs/src/lib/bindings/web3-react
 S src/lib/bindings/ethereum-blockies-base64

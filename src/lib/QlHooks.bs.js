@@ -1324,6 +1324,18 @@ function usePledgeRate(tokenId) {
               }), [optPatronageNumerator]);
 }
 
+function usePledgeRateDetailed(tokenId) {
+  var pledgeRate = usePledgeRate(tokenId);
+  var inversePledgeRate = 1 / pledgeRate;
+  var numeratorOverYear = String(pledgeRate * 1200 | 0);
+  return /* tuple */[
+          numeratorOverYear,
+          "100",
+          pledgeRate,
+          inversePledgeRate
+        ];
+}
+
 function useAmountRaisedToken(animal) {
   var currentTimestamp = useCurrentTime(undefined);
   var match = useTotalCollectedToken(animal);
@@ -1421,6 +1433,7 @@ export {
   useTotalCollectedToken ,
   usePatronageNumerator ,
   usePledgeRate ,
+  usePledgeRateDetailed ,
   useAmountRaisedToken ,
   useRemainingDeposit ,
   useRemainingDepositEth ,

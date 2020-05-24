@@ -37,7 +37,12 @@ type ethState =
   | Disconnected
   | Connected(Web3.ethAddress, option(Eth.t));
 
+// type config = {
+//   stewardContractAddress: Web3.ethAddress
+
+// };
 type state = {
   nonUrlState,
   ethState,
+  // config,
 };
