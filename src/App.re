@@ -12,6 +12,10 @@ let make = () => {
     <Info tokenId={TokenId.makeFromInt(0)} />
     <h3> "Buy this token:"->restr </h3>
     <Buy tokenId={TokenId.makeFromInt(0)} />
+    <h3> "Change price"->restr </h3>
+    <UpdatePrice tokenId={TokenId.makeFromInt(0)} />
+    <h3> "Update Deposit"->restr </h3>
+    <UpdateDeposit />
     <h2> "Some react!"->restr </h2>
   </div>;
 };

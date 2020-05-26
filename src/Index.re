@@ -1,7 +1,10 @@
+[@bs.module "./steward-abi.json"] external stewardAbi: Web3.abi = "default";
+
 ReactDOMRe.renderToElementWithId(
   <WildcardsProvider
-    stewardContractAddress="0x0C00CFE8EbB34fE7C31d4915a43Cde211e9F0F3B"
-    graphEndpoint="api.thegraph.com/subgraphs/name/wild-cards/wildcards-goerli">
+    stewardAbi
+    stewardContractAddress="0x4bE0Eab8f41c8109AA134509086Cbcb18b10C0fB"
+    graphEndpoint="api.thegraph.com/subgraphs/name/wildcards-world/harberger-sample-graph">
     <UsdPriceProvider> <App /> </UsdPriceProvider>
   </WildcardsProvider>,
   "root",

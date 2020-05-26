@@ -43,11 +43,15 @@ type parsedUnits;
 type txOptions = {value: parsedUnits};
 type tokenIdString = string;
 type estimateBuy = {
-  buy: (. string, parsedUnits, txOptions) => Promise.Js.t(string, string),
+  buy:
+    (. string, parsedUnits, parsedUnits, txOptions) =>
+    Promise.Js.t(string, string),
 };
 type stewardContract = {
   estimate: estimateBuy,
-  buy: (. tokenIdString, parsedUnits, txOptions) => Promise.Js.t(tx, txError),
+  buy:
+    (. tokenIdString, parsedUnits, parsedUnits, txOptions) =>
+    Promise.Js.t(tx, txError),
   depositWei: (. txOptions) => Promise.Js.t(tx, txError),
   withdrawDeposit: (. parsedUnits, txOptions) => Promise.Js.t(tx, txError),
   _collectPatronage:
@@ -241,9 +245,22 @@ let useBuy = animal => {
   let optSteward = useStewardContract();
 
   (
-    (newPrice, value: string) => {
+    (newPrice, deposit, value: string) => {
+      // let newPriceEncoded = parseUnits(. "100000000000000", 18);
+      // let value = parseUnits(. "200000000000000", 0);
+      // let depositEncoded = parseUnits(. "100000000000000", 0);
       let newPriceEncoded = parseUnits(. newPrice, 18);
+      Js.log("BN.new_(value)->BN.toStringGet(.)");
+      Js.log(BN.new_(value)->BN.toStringGet(.));
+      Js.log(BN.new_(newPrice)->BN.toStringGet(.));
+      Js.log("BN.new_(value)->BN.toStringGet(.)");
+      Js.log(newPriceEncoded);
+      Js.log("BN.new_(value)->BN.toStringGet(.)");
+      Js.log(newPrice);
+      // let deposit = BN.new_(value) |-| BN.new_(newPrice->Obj.magic);
+      // Js.log(deposit->BN.toStringGet(.));
       let value = parseUnits(. value, 0);
+      let depositEncoded = parseUnits(. deposit, 18);
 
       setTxState(_ => Created);
       switch (optSteward) {
@@ -252,6 +269,7 @@ let useBuy = animal => {
           steward.buy(.
             animalId,
             newPriceEncoded,
+            depositEncoded,
             {
               // gasLimit: calculateGasMargin(estimatedGasLimit, GAS_MARGIN)
               value: value,
@@ -782,7 +800,7 @@ let useUserLoyaltyTokenBalance = (address: Web3.ethAddress) => {
 // };
 
 let useChangePrice = animal => {
-  let animalId = Animal.getId(animal);
+  let animalId = TokenId.toString(animal);
   let (txState, setTxState) = React.useState(() => UnInitialised);
 
   let optSteward = useStewardContract();
