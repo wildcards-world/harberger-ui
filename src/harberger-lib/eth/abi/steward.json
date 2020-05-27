@@ -1,16 +1,175 @@
 {
   "stewardAbi": [
     {
-      "constant": true,
+      "anonymous": false,
       "inputs": [
         {
-          "name": "",
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "patronageNumerator",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "tokenGenerationRate",
           "type": "uint256"
         }
       ],
-      "name": "currentPatron",
+      "name": "AddToken",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "Buy",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "patron",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountRecieved",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollectLoyalty",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "patron",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "remainingDeposit",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountReceived",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollectPatronage",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "prevOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "foreclosureTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "Foreclosure",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newPrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "PriceChange",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "tokenPatron",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "remainingDeposit",
+          "type": "uint256"
+        }
+      ],
+      "name": "RemainingDepositUpdate",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "admin",
       "outputs": [
         {
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -25,6 +184,7 @@
       "name": "assetToken",
       "outputs": [
         {
+          "internalType": "contract ERC721Patronage",
           "name": "",
           "type": "address"
         }
@@ -37,6 +197,28 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "benefactorFunds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -44,6 +226,7 @@
       "name": "benefactors",
       "outputs": [
         {
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -56,6 +239,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -63,6 +247,7 @@
       "name": "currentCollected",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -75,17 +260,72 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        },
+        }
+      ],
+      "name": "currentPatron",
+      "outputs": [
         {
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
       ],
-      "name": "timeHeld",
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "deposit",
       "outputs": [
         {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "mintManager",
+      "outputs": [
+        {
+          "internalType": "contract MintManager",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "patronageNumerator",
+      "outputs": [
+        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -98,29 +338,12 @@
       "constant": true,
       "inputs": [
         {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "price",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         },
         {
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -128,6 +351,7 @@
       "name": "patrons",
       "outputs": [
         {
+          "internalType": "bool",
           "name": "",
           "type": "bool"
         }
@@ -140,6 +364,28 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "price",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -147,6 +393,7 @@
       "name": "state",
       "outputs": [
         {
+          "internalType": "enum HarbergerSteward.StewardState",
           "name": "",
           "type": "uint8"
         }
@@ -159,6 +406,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -166,6 +414,7 @@
       "name": "timeAcquired",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -178,6 +427,33 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "timeHeld",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -185,6 +461,7 @@
       "name": "timeLastCollected",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -197,6 +474,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -204,20 +482,7 @@
       "name": "timeLastCollectedPatron",
       "outputs": [
         {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "patronageDenominator",
-      "outputs": [
-        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -230,13 +495,15 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "",
-          "type": "address"
+          "type": "uint256"
         }
       ],
-      "name": "benefactorFunds",
+      "name": "tokenGenerationRate",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -249,6 +516,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -256,6 +524,7 @@
       "name": "totalCollected",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -268,58 +537,7 @@
       "constant": true,
       "inputs": [
         {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "patronageNumerator",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "deposit",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "admin",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -327,6 +545,7 @@
       "name": "totalPatronOwnedTokenCost",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -336,106 +555,22 @@
       "type": "function"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "name": "price",
-          "type": "uint256"
-        }
-      ],
-      "name": "LogBuy",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "newPrice",
-          "type": "uint256"
-        }
-      ],
-      "name": "LogPriceChange",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "prevOwner",
-          "type": "address"
-        }
-      ],
-      "name": "LogForeclosure",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "collected",
-          "type": "uint256"
-        }
-      ],
-      "name": "LogCollection",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "tokenPatron",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "name": "remainingDeposit",
-          "type": "uint256"
-        }
-      ],
-      "name": "LogRemainingDepositUpdate",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "name": "patronageNumerator",
-          "type": "uint256"
-        }
-      ],
-      "name": "AddToken",
-      "type": "event"
-    },
-    {
       "constant": false,
       "inputs": [
         {
+          "internalType": "contract ERC721Patronage",
           "name": "_assetToken",
           "type": "address"
         },
         {
+          "internalType": "address",
           "name": "_admin",
           "type": "address"
         },
         {
-          "name": "_patronageDenominator",
-          "type": "uint256"
+          "internalType": "contract MintManager",
+          "name": "_mintManager",
+          "type": "address"
         }
       ],
       "name": "initialize",
@@ -448,15 +583,23 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "uint256[]",
           "name": "tokens",
           "type": "uint256[]"
         },
         {
+          "internalType": "address payable[]",
           "name": "_benefactors",
           "type": "address[]"
         },
         {
+          "internalType": "uint256[]",
           "name": "_patronageNumerator",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_tokenGenerationRate",
           "type": "uint256[]"
         }
       ],
@@ -470,10 +613,12 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         },
         {
+          "internalType": "address payable",
           "name": "_newReceivingBenefactor",
           "type": "address"
         }
@@ -488,6 +633,7 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "address",
           "name": "_admin",
           "type": "address"
         }
@@ -502,6 +648,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         }
@@ -509,6 +656,7 @@
       "name": "patronageOwed",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "patronageDue",
           "type": "uint256"
         }
@@ -521,6 +669,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         }
@@ -528,10 +677,12 @@
       "name": "patronageOwedWithTimestamp",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "patronageDue",
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
           "name": "timestamp",
           "type": "uint256"
         }
@@ -544,6 +695,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
           "name": "tokenPatron",
           "type": "address"
         }
@@ -551,6 +703,7 @@
       "name": "patronageOwedPatron",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "patronageDue",
           "type": "uint256"
         }
@@ -563,6 +716,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
           "name": "tokenPatron",
           "type": "address"
         }
@@ -570,10 +724,12 @@
       "name": "patronageOwedPatronWithTimestamp",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "patronageDue",
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
           "name": "timestamp",
           "type": "uint256"
         }
@@ -586,6 +742,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
           "name": "tokenPatron",
           "type": "address"
         }
@@ -593,6 +750,7 @@
       "name": "foreclosedPatron",
       "outputs": [
         {
+          "internalType": "bool",
           "name": "",
           "type": "bool"
         }
@@ -605,6 +763,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         }
@@ -612,6 +771,7 @@
       "name": "foreclosed",
       "outputs": [
         {
+          "internalType": "bool",
           "name": "",
           "type": "bool"
         }
@@ -624,6 +784,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
           "name": "tokenPatron",
           "type": "address"
         }
@@ -631,6 +792,7 @@
       "name": "depositAbleToWithdraw",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -643,6 +805,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "address",
           "name": "tokenPatron",
           "type": "address"
         }
@@ -650,6 +813,7 @@
       "name": "foreclosureTimePatron",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -662,6 +826,7 @@
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         }
@@ -669,6 +834,7 @@
       "name": "foreclosureTime",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -681,6 +847,7 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         }
@@ -695,6 +862,7 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "address",
           "name": "tokenPatron",
           "type": "address"
         }
@@ -718,6 +886,7 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "address",
           "name": "patron",
           "type": "address"
         }
@@ -732,11 +901,18 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
           "name": "_newPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_deposit",
           "type": "uint256"
         }
       ],
@@ -750,10 +926,12 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
           "name": "_newPrice",
           "type": "uint256"
         }
@@ -768,6 +946,7 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "uint256",
           "name": "_wei",
           "type": "uint256"
         }
@@ -775,6 +954,7 @@
       "name": "withdrawDeposit",
       "outputs": [
         {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -796,6 +976,7 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "address payable",
           "name": "benefactor",
           "type": "address"
         }
