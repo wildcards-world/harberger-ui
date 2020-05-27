@@ -1,4 +1,5 @@
-// import "./Index.bs.js";
+// If you want to use Reason-React uncomment the below line and remove the rest of the content of this file.
+// import "./examplejAppInReasonML/Index.bs.js";
 
 import { make as WildcardsProvider } from "./harberger-lib/components/WildcardsProvider.gen";
 import { make as UsdPriceProvider } from "./harberger-lib/components/UsdPriceProvider.gen";
