@@ -1,3 +1,4 @@
+[@gentype]
 type t;
 
 let fromStringUnsafe: string => t = Obj.magic;

@@ -5,9 +5,9 @@ import * as Buy$WildCards from "./harberger-lib/components/Buy.bs.js";
 import * as Info$WildCards from "./harberger-lib/components/Info.bs.js";
 import * as Globals$WildCards from "./harberger-lib/Globals.bs.js";
 import * as TokenId$WildCards from "./harberger-lib/TokenId.bs.js";
-import * as ProfileIcon$WildCards from "./harberger-lib/ProfileIcon.bs.js";
+import * as ProfileIcon$WildCards from "./harberger-lib/components/ProfileIcon.bs.js";
 import * as UpdatePrice$WildCards from "./harberger-lib/components/UpdatePrice.bs.js";
-import * as Web3Connect$WildCards from "./harberger-lib/Web3Connect.bs.js";
+import * as Web3Connect$WildCards from "./harberger-lib/components/Web3Connect.bs.js";
 import * as UpdateDeposit$WildCards from "./harberger-lib/components/UpdateDeposit.bs.js";
 
 function App(Props) {

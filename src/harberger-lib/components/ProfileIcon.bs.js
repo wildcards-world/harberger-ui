@@ -7,10 +7,10 @@ import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
 import * as RimbleUi from "rimble-ui";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
-import * as Blockie$WildCards from "./bindings/ethereum-blockies-base64/Blockie.bs.js";
-import * as Globals$WildCards from "./Globals.bs.js";
-import * as RootProvider$WildCards from "./RootProvider.bs.js";
-import * as UserProvider$WildCards from "./js/user-provider/UserProvider.bs.js";
+import * as Blockie$WildCards from "../bindings/ethereum-blockies-base64/Blockie.bs.js";
+import * as Globals$WildCards from "../Globals.bs.js";
+import * as RootProvider$WildCards from "../RootProvider.bs.js";
+import * as UserProvider$WildCards from "../js/user-provider/UserProvider.bs.js";
 
 function ProfileIcon(Props) {
   var clickActionOpt = Props.clickAction;

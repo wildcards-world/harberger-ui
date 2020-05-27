@@ -4,11 +4,11 @@ import * as Css from "bs-css-emotion/src/Css.js";
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as RimbleUi from "rimble-ui";
-import * as Login$WildCards from "./Login.bs.js";
-import * as Styles$WildCards from "./Styles.bs.js";
-import * as Globals$WildCards from "./Globals.bs.js";
+import * as Login$WildCards from "../Login.bs.js";
+import * as Styles$WildCards from "../Styles.bs.js";
+import * as Globals$WildCards from "../Globals.bs.js";
 import * as ReasonReactRouter from "reason-react/src/ReasonReactRouter.js";
-import * as RootProvider$WildCards from "./RootProvider.bs.js";
+import * as RootProvider$WildCards from "../RootProvider.bs.js";
 
 var infoModalStyle = Curry._1(Css.style, /* :: */[
       Css.padding(Css.rem(3)),

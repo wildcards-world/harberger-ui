@@ -1,10 +1,10 @@
 {
   "name": "@wildcards/harberger-ui",
-  "version": "0.0.0-pre-alpha1",
+  "version": "0.0.0-pre-alpha2",
   "private": false,
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
   "babel": {
     "presets": [
       "@babel/react"
@@ -34,7 +34,7 @@
     "use-debounce": "^3.4.2"
   },
   "scripts": {
-    "publish:npm": "NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src/harberger-lib/components --out-dir dist --copy-files",
+    "publish:npm": "NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src --out-dir dist --copy-files",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
