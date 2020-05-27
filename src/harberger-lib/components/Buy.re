@@ -43,6 +43,7 @@ let calcRequiredDepositForTime = (time, price, numerator, denominator) => {
   requiredDeposit->Web3Utils.fromWeiToEth;
 };
 
+[@gentype]
 [@react.component]
 let make = (~tokenId: TokenId.t) => {
   let (buyFunc, txState) = ContractActions.useBuy(tokenId);

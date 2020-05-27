@@ -1,4 +1,4 @@
-// [@gentype]
+[@gentype]
 [@react.component]
 let make =
     (

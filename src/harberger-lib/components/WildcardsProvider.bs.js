@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import * as ReactApollo from "react-apollo";
-import * as Client$WildCards from "./Client.bs.js";
+import * as Client$WildCards from "../Client.bs.js";
 import * as ReactHooks from "@apollo/react-hooks";
-import * as RootProvider$WildCards from "./RootProvider.bs.js";
-import * as QlStateManager$WildCards from "./QlStateManager.bs.js";
+import * as RootProvider$WildCards from "../RootProvider.bs.js";
+import * as QlStateManager$WildCards from "../QlStateManager.bs.js";
 
 function WildcardsProvider(Props) {
   var graphEndpoint = Props.graphEndpoint;

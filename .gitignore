@@ -26,3 +26,5 @@ lib
 # *.bs.js
 .bsb.lock
 .merlin
+
+dist

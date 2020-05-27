@@ -15,7 +15,7 @@ import * as Accounting$WildCards from "../Accounting.bs.js";
 import * as PriceDisplay$WildCards from "../PriceDisplay.bs.js";
 import * as RootProvider$WildCards from "../RootProvider.bs.js";
 import * as UserProvider$WildCards from "../js/user-provider/UserProvider.bs.js";
-import * as UsdPriceProvider$WildCards from "../UsdPriceProvider.bs.js";
+import * as UsdPriceProvider$WildCards from "./UsdPriceProvider.bs.js";
 
 function Info(Props) {
   var tokenId = Props.tokenId;

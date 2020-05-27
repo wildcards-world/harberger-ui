@@ -34,7 +34,8 @@
     // "@glennsl/bs-jest"
   ],
   "gentypeconfig": {
-    "language": "typescript",
+    "language": "untyped",
+    // "language": "typescript",
     "shims": {
       "ReasonReact": "reactshim"
     },

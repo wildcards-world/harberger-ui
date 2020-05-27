@@ -2,6 +2,8 @@ open Belt.Option;
 
 let getToDisplay = (label, value) =>
   React.string(label ++ ": " ++ value->mapWithDefault("loading", a => a));
+
+[@gentype]
 [@react.component]
 let make = (~tokenId: TokenId.t) => {
   let (newBuyPrice, setNewBuyPrice) = React.useState(() => "");

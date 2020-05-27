@@ -17,6 +17,7 @@ let getToDisplay = (label, value) =>
     label ++ ": " ++ value->Belt.Option.mapWithDefault("loading", a => a),
   );
 
+[@gentype]
 [@react.component]
 let make = () => {
   let (depositChange, setDepositChange) = React.useState(() => "");

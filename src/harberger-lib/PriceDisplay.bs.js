@@ -7,7 +7,7 @@ import * as Styles$WildCards from "./Styles.bs.js";
 import * as Globals$WildCards from "./Globals.bs.js";
 import * as QlHooks$WildCards from "./QlHooks.bs.js";
 import * as Web3Utils$WildCards from "./Web3Utils.bs.js";
-import * as UsdPriceProvider$WildCards from "./UsdPriceProvider.bs.js";
+import * as UsdPriceProvider$WildCards from "./components/UsdPriceProvider.bs.js";
 
 function usePrice(animal) {
   var optPriceWei = QlHooks$WildCards.usePrice(animal);

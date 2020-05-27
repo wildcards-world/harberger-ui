@@ -9,8 +9,8 @@ import * as Js_json from "bs-platform/lib/es6/js_json.js";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as Belt_Float from "bs-platform/lib/es6/belt_Float.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
-import * as Async$WildCards from "./Async.bs.js";
-import * as Globals$WildCards from "./Globals.bs.js";
+import * as Async$WildCards from "../Async.bs.js";
+import * as Globals$WildCards from "../Globals.bs.js";
 
 var context = React.createContext(undefined);
 

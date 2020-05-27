@@ -4,8 +4,8 @@ import * as React from "react";
 import * as ReactDOMRe from "reason-react/src/ReactDOMRe.js";
 import * as App$WildCards from "./App.bs.js";
 import * as StewardAbiJson from "./steward-abi.json";
-import * as UsdPriceProvider$WildCards from "./harberger-lib/UsdPriceProvider.bs.js";
-import * as WildcardsProvider$WildCards from "./harberger-lib/WildcardsProvider.bs.js";
+import * as UsdPriceProvider$WildCards from "./harberger-lib/components/UsdPriceProvider.bs.js";
+import * as WildcardsProvider$WildCards from "./harberger-lib/components/WildcardsProvider.bs.js";
 
 var stewardAbi = StewardAbiJson.default;
 
